@@ -7,165 +7,159 @@
 //
 
 #import "AES.h"
-#import <CommonCrypto/CommonCryptor.h>
+#import <CommonCrypto/CommonCrypto.h>
 
 @implementation AES
-// hex s
+#pragma mark - MD5
+/// MD5加密Data（MD5加密方法一）
++ (NSString *)MD5String:(NSString *)string
+{
+    if (string.length == 0) {
+        return nil;
+    }
+    const char *chars = string.UTF8String;
+    // 创建摘要数组，存储加密结果
+    unsigned char digest[CC_MD5_DIGEST_LENGTH];
+    // 进行MD5加密
+    CC_MD5(chars, (CC_LONG)strlen(chars), digest);
+    // 输出为字符串
+    NSMutableString *result = [NSMutableString stringWithCapacity:CC_MD5_DIGEST_LENGTH * 2];
+    for(int i = 0; i < CC_MD5_DIGEST_LENGTH; i++) {
+        [result appendFormat:@"%02X", digest[i]];   //小写x表示输出的是小写MD5，大写X表示输出的是大写MD5
+    }
+    return [result copy];
+}
 
+#pragma mark - 默认Key、IV处理
+/// 将任意长度key，转为加密方式指定长度的key
+/// AES128 key:原值MD5,取(5,16)，MD5是大写
++ (NSString *)md5AES128key:(NSString *)key
+{
+    NSString *result = [[self MD5String:key] substringWithRange:NSMakeRange(5, 16)];
+    return result;
+}
 
-///// AES加密
-//+ (NSString *)encrypt:(NSString *)message password:(NSString *)password {
-//  NSData *encryptedData = [[message dataUsingEncoding:NSUTF8StringEncoding] AES256EncryptedDataUsingKey:[[password dataUsingEncoding:NSUTF8StringEncoding] SHA256Hash] error:nil];
-//  NSString *base64EncodedString = [NSString base64StringFromData:encryptedData length:[encryptedData length]];
-//  return base64EncodedString;
-//}
-//
-///// AES解密
-//+ (NSString *)decrypt:(NSString *)base64EncodedString password:(NSString *)password {
-//  NSData *encryptedData = [NSData base64DataFromString:base64EncodedString];
-//  NSData *decryptedData = [encryptedData decryptedAES256DataUsingKey:[[password dataUsingEncoding:NSUTF8StringEncoding] SHA256Hash] error:nil];
-//  return [[NSString alloc] initWithData:decryptedData encoding:NSUTF8StringEncoding];
-//}
-//
-//
-//#pragma mark - Base64
-//
-//#pragma mark - AES Encrypt
-//// default AES Encrypt, key -> SHA384(key).sub(0, 32), iv -> SHA384(key).sub(32, 16)
-//+ (CocoaSecurityResult *)aesEncrypt:(NSString *)data key:(NSString *)key
-//{
-//    CocoaSecurityResult * sha = [self sha384:key];
-//    NSData *aesKey = [sha.data subdataWithRange:NSMakeRange(0, 32)];
-//    NSData *aesIv = [sha.data subdataWithRange:NSMakeRange(32, 16)];
-//
-//    return [self aesEncrypt:data key:aesKey iv:aesIv];
-//}
-//#pragma mark AES Encrypt 128, 192, 256
-//+ (CocoaSecurityResult *)aesEncrypt:(NSString *)data hexKey:(NSString *)key hexIv:(NSString *)iv
-//{
-//    CocoaSecurityDecoder *decoder = [CocoaSecurityDecoder new];
-//    NSData *aesKey = [decoder hex:key];
-//    NSData *aesIv = [decoder hex:iv];
-//
-//    return [self aesEncrypt:data key:aesKey iv:aesIv];
-//}
-//+ (CocoaSecurityResult *)aesEncrypt:(NSString *)data key:(NSData *)key iv:(NSData *)iv
-//{
-//    return [self aesEncryptWithData:[data dataUsingEncoding:NSUTF8StringEncoding] key:key iv:iv];
-//}
-//+ (CocoaSecurityResult *)aesEncryptWithData:(NSData *)data key:(NSData *)key iv:(NSData *)iv
-//{
-//    // check length of key and iv
-//    if ([iv length] != 16) {
-//        @throw [NSException exceptionWithName:@"Cocoa Security"
-//                                       reason:@"Length of iv is wrong. Length of iv should be 16(128bits)"
-//                                     userInfo:nil];
-//    }
-//    if ([key length] != 16 && [key length] != 24 && [key length] != 32 ) {
-//        @throw [NSException exceptionWithName:@"Cocoa Security"
-//                                       reason:@"Length of key is wrong. Length of iv should be 16, 24 or 32(128, 192 or 256bits)"
-//                                     userInfo:nil];
-//    }
-//
-//    // setup output buffer
-//    size_t bufferSize = [data length] + kCCBlockSizeAES128;
-//    void *buffer = malloc(bufferSize);
-//
-//    // do encrypt
-//    size_t encryptedSize = 0;
-//    CCCryptorStatus cryptStatus = CCCrypt(kCCEncrypt,
-//                                          kCCAlgorithmAES128,
-//                                          kCCOptionPKCS7Padding,
-//                                          [key bytes],     // Key
-//                                          [key length],    // kCCKeySizeAES
-//                                          [iv bytes],       // IV
-//                                          [data bytes],
-//                                          [data length],
-//                                          buffer,
-//                                          bufferSize,
-//                                          &encryptedSize);
-//    if (cryptStatus == kCCSuccess) {
-//        CocoaSecurityResult *result = [[CocoaSecurityResult alloc] initWithBytes:buffer length:encryptedSize];
-//        free(buffer);
-//
-//        return result;
-//    }
-//    else {
-//        free(buffer);
-//        @throw [NSException exceptionWithName:@"Cocoa Security"
-//                                       reason:@"Encrypt Error!"
-//                                     userInfo:nil];
-//        return nil;
-//    }
-//}
-//#pragma mark - AES Decrypt
-//// default AES Decrypt, key -> SHA384(key).sub(0, 32), iv -> SHA384(key).sub(32, 16)
-//+ (CocoaSecurityResult *)aesDecryptWithBase64:(NSString *)data key:(NSString *)key
-//{
-//    CocoaSecurityResult * sha = [self sha384:key];
-//    NSData *aesKey = [sha.data subdataWithRange:NSMakeRange(0, 32)];
-//    NSData *aesIv = [sha.data subdataWithRange:NSMakeRange(32, 16)];
-//
-//    return [self aesDecryptWithBase64:data key:aesKey iv:aesIv];
-//}
-//#pragma mark AES Decrypt 128, 192, 256
-//+ (CocoaSecurityResult *)aesDecryptWithBase64:(NSString *)data hexKey:(NSString *)key hexIv:(NSString *)iv
-//{
-//    CocoaSecurityDecoder *decoder = [CocoaSecurityDecoder new];
-//    NSData *aesKey = [decoder hex:key];
-//    NSData *aesIv = [decoder hex:iv];
-//
-//    return [self aesDecryptWithBase64:data key:aesKey iv:aesIv];
-//}
-//+ (CocoaSecurityResult *)aesDecryptWithBase64:(NSString *)data key:(NSData *)key iv:(NSData *)iv
-//{
-//    CocoaSecurityDecoder *decoder = [CocoaSecurityDecoder new];
-//    return [self aesDecryptWithData:[decoder base64:data] key:key iv:iv];
-//}
-//+ (CocoaSecurityResult *)aesDecryptWithData:(NSData *)data key:(NSData *)key iv:(NSData *)iv
-//{
-//    // check length of key and iv
-//    if ([iv length] != 16) {
-//        @throw [NSException exceptionWithName:@"Cocoa Security"
-//                                       reason:@"Length of iv is wrong. Length of iv should be 16(128bits)"
-//                                     userInfo:nil];
-//    }
-//    if ([key length] != 16 && [key length] != 24 && [key length] != 32 ) {
-//        @throw [NSException exceptionWithName:@"Cocoa Security"
-//                                       reason:@"Length of key is wrong. Length of iv should be 16, 24 or 32(128, 192 or 256bits)"
-//                                     userInfo:nil];
-//    }
-//
-//    // setup output buffer
-//    size_t bufferSize = [data length] + kCCBlockSizeAES128;
-//    void *buffer = malloc(bufferSize);
-//
-//    // do encrypt
-//    size_t encryptedSize = 0;
-//    CCCryptorStatus cryptStatus = CCCrypt(kCCDecrypt,
-//                                          kCCAlgorithmAES128,
-//                                          kCCOptionPKCS7Padding,
-//                                          [key bytes],     // Key
-//                                          [key length],    // kCCKeySizeAES
-//                                          [iv bytes],       // IV
-//                                          [data bytes],
-//                                          [data length],
-//                                          buffer,
-//                                          bufferSize,
-//                                          &encryptedSize);
-//    if (cryptStatus == kCCSuccess) {
-//        CocoaSecurityResult *result = [[CocoaSecurityResult alloc] initWithBytes:buffer length:encryptedSize];
-//        free(buffer);
-//
-//        return result;
-//    }
-//    else {
-//        free(buffer);
-//        @throw [NSException exceptionWithName:@"Cocoa Security"
-//                                       reason:@"Decrypt Error!"
-//                                     userInfo:nil];
-//        return nil;
-//    }
-//}
+/// AES192 key:原值MD5,取(5,24)，MD5是大写
++ (NSString *)md5AES192key:(NSString *)key
+{
+    NSString *result = [[self MD5String:key] substringWithRange:NSMakeRange(5, 24)];
+    return result;
+}
+
+/// AES256 key:原值MD5，MD5是大写
++ (NSString *)md5AES256key:(NSString *)key
+{
+    NSString *result = [self MD5String:key];
+    return result;
+}
+
+/// 将任意长度iv，转为加密方式指定长度的iv
+/// iv:原值MD5,取(5,16)，MD5是大写
++ (NSString *)md5IV:(NSString *)iv
+{
+    NSString *result = [[self MD5String:iv] substringWithRange:NSMakeRange(5, 16)];
+    return result;
+}
+
+#pragma mark - AES
+#pragma mark CBC模式，多平台通用，安全性更高
+/// AES CBC加密
++ (NSData *)encryptData:(NSData *)data key:(NSString *)key iv:(NSString *)iv
+{
+    NSData *result = [self aesCBC:kCCEncrypt data:data key:key iv:iv];
+    return result;
+}
+
+/// AES CBC解密
++ (NSData *)decryptData:(NSData *)data key:(NSString *)key iv:(NSString *)iv
+{
+    NSData *result = [self aesCBC:kCCDecrypt data:data key:key iv:iv];
+    return result;
+}
+
+/// AES CBC模式
++ (NSData *)aesCBC:(CCOperation)operation data:(NSData *)data key:(NSString *)key iv:(NSString *)iv
+{
+    if (data == nil || key.length == 0 || iv.length == 0) {
+        return nil;
+    }
+
+    const char *aesKey = key.UTF8String;
+    const char *aesIV = iv.UTF8String;
+    
+    size_t bufferSize = [data length] + kCCBlockSizeAES128;
+    void *buffer = malloc(bufferSize);
+    
+    size_t encryptedSize = 0;
+    CCCryptorStatus cryptStatus = CCCrypt(operation,
+                                          kCCAlgorithmAES128,
+                                          kCCOptionPKCS7Padding,
+                                          aesKey,
+                                          strlen(aesKey),
+                                          aesIV,
+                                          data.bytes,
+                                          data.length,
+                                          buffer,
+                                          bufferSize,
+                                          &encryptedSize);
+    
+    NSData *result = nil;
+    if (cryptStatus == kCCSuccess) {
+        result = [[NSData alloc] initWithBytes:buffer length:encryptedSize];
+    }
+
+    free(buffer);
+    return result;
+}
+
+#pragma mark - ECB模式，并行计算，加密效率更高，但安全性低于CBC
+/// AES ECB加密
++ (NSData *)encryptDataECB:(NSData *)data key:(NSString *)key
+{
+    NSData *result = [self aesECB:kCCEncrypt data:data key:key];
+    return result;
+}
+
+/// AES ECB解密
++ (NSData *)decryptDataECB:(NSData *)data key:(NSString *)key
+{
+    NSData *result = [self aesECB:kCCDecrypt data:data key:key];
+    return result;
+}
+
+/// AES ECB加密
++ (NSData *)aesECB:(CCOperation)operation data:(NSData *)data key:(NSString *)key
+{
+    if (data == nil || key.length == 0) {
+        return nil;
+    }
+    
+    const char *aesKey = key.UTF8String;
+    
+    size_t bufferSize = [data length] + kCCBlockSizeAES128;
+    void *buffer = malloc(bufferSize);
+    
+    size_t encryptedSize = 0;
+    CCCryptorStatus cryptStatus = CCCrypt(operation,
+                                          kCCAlgorithmAES128,
+                                          kCCOptionPKCS7Padding | kCCOptionECBMode,
+                                          aesKey,
+                                          strlen(aesKey),
+                                          NULL,
+                                          data.bytes,
+                                          data.length,
+                                          buffer,
+                                          bufferSize,
+                                          &encryptedSize);
+    
+    NSData *result = nil;
+    if (cryptStatus == kCCSuccess) {
+        result = [[NSData alloc] initWithBytes:buffer length:encryptedSize];
+    }
+
+    free(buffer);
+    return result;
+}
+
 @end
 

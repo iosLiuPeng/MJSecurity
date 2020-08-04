@@ -12,29 +12,20 @@
 @implementation MD5
 #pragma mark - MD5
 /// MD5加密字符串
-+ (NSString *)MD5String:(NSString *)stirng
++ (NSString *)MD5String:(NSString *)string
 {
-    if (stirng.length == 0) {
+    if (string.length == 0) {
         return nil;
     }
-    NSString *result = [self MD5WithChars:stirng.UTF8String];
+    NSData *data = [string dataUsingEncoding:NSUTF8StringEncoding];
+    NSString *result = [self MD5Data:data];
     return result;
 }
 
-/// MD5加密Data
+/// MD5加密Data（MD5加密方法一）
 + (NSString *)MD5Data:(NSData *)data
 {
     if (data == nil) {
-        return nil;
-    }
-    NSString *result = [self MD5WithChars:(const char *)data.bytes];
-    return result;
-}
-
-/// MD5加密方法一
-+ (NSString *)MD5WithChars:(const char *)str
-{
-    if (str == nil) {
         return nil;
     }
     // 创建摘要数组，存储加密结果
@@ -42,7 +33,7 @@
     // 也可以定义一个字节数组来接收计算得到的MD5值
     // Byte digest[CC_MD5_DIGEST_LENGTH];
     // 进行MD5加密
-    CC_MD5(str, (int)strlen(str), digest);
+    CC_MD5(data.bytes, (CC_LONG)data.length, digest);
     // 输出为字符串
     NSMutableString *result = [NSMutableString stringWithCapacity:CC_MD5_DIGEST_LENGTH * 2];
     for(int i = 0; i < CC_MD5_DIGEST_LENGTH; i++) {
@@ -73,12 +64,13 @@
 
 #pragma mark - HMAC-MD5 更安全的MD5方式，双方共有一个密钥
 /// HMAC-MD5加密字符串
-+ (NSString *)hmacMD5String:(NSString *)stirng hmacKey:(NSString *)key
++ (NSString *)hmacMD5String:(NSString *)string hmacKey:(NSString *)key
 {
-    if (stirng.length == 0 || key.length == 0) {
+    if (string.length == 0) {
         return nil;
     }
-    NSString *result = [self hmacMD5WithChars:stirng.UTF8String hmacKey:key];
+    NSData *data = [string dataUsingEncoding:NSUTF8StringEncoding];
+    NSString *result = [self hmacMD5Data:data hmacKey:key];
     return result;
 }
 
@@ -88,23 +80,13 @@
     if (data == nil || key.length == 0) {
         return nil;
     }
-    NSString *result = [self hmacMD5WithChars:(const char *)data.bytes hmacKey:key];
-    return result;
-}
-
-/// HMAC-MD5加密
-+ (NSString *)hmacMD5WithChars:(const char *)str hmacKey:(NSString *)key
-{
-    if (str == nil || key.length == 0) {
-        return nil;
-    }
     const char *keyData = key.UTF8String;
     // 创建摘要数组，存储加密结果
     unsigned char digest[CC_MD5_DIGEST_LENGTH];
     // 也可以定义一个字节数组来接收计算得到的MD5值
     // Byte digest[CC_MD5_DIGEST_LENGTH];
     // 进行HMAC-MD5加密
-    CCHmac(kCCHmacAlgMD5, keyData, strlen(keyData), str, strlen(str), digest);
+    CCHmac(kCCHmacAlgMD5, keyData, strlen(keyData), data.bytes, (CC_LONG)data.length, digest);
     // 输出为字符串
     NSMutableString *result = [NSMutableString stringWithCapacity:CC_MD5_DIGEST_LENGTH * 2];
     for(int i = 0; i < CC_MD5_DIGEST_LENGTH; i++) {

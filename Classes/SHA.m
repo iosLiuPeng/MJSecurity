@@ -12,22 +12,14 @@
 @implementation SHA
 #pragma mark - SHA
 /// SHA1
-+ (NSString *)SHA1String:(NSString *)stirng
++ (NSString *)SHA1String:(NSString *)string
 {
-    if (stirng.length == 0) {
+    if (string.length == 0) {
         return nil;
     }
-    const char *str = stirng.UTF8String;
-    // 创建摘要数组，存储加密结果
-    unsigned char digest[CC_SHA1_DIGEST_LENGTH];
-    // 进行SHA加密
-    CC_SHA1(str, (CC_LONG)strlen(str), digest);
-    // 输出为字符串
-    NSMutableString *result = [NSMutableString stringWithCapacity:CC_SHA1_DIGEST_LENGTH * 2];
-    for(int i = 0; i < CC_SHA1_DIGEST_LENGTH; i++) {
-        [result appendFormat:@"%02X", digest[i]];   //小写x表示输出的是小写SHA，大写X表示输出的是大写SHA
-    }
-    return [result copy];
+    NSData *data = [string dataUsingEncoding:NSUTF8StringEncoding];
+    NSString *result = [self SHA1Data:data];
+    return result;
 }
 
 + (NSString *)SHA1Data:(NSData *)data
@@ -48,22 +40,14 @@
 }
 
 /// SHA224
-+ (NSString *)SHA224String:(NSString *)stirng
++ (NSString *)SHA224String:(NSString *)string
 {
-    if (stirng.length == 0) {
+    if (string.length == 0) {
         return nil;
     }
-    const char *str = stirng.UTF8String;
-    // 创建摘要数组，存储加密结果
-    unsigned char digest[CC_SHA224_DIGEST_LENGTH];
-    // 进行SHA加密
-    CC_SHA224(str, (CC_LONG)strlen(str), digest);
-    // 输出为字符串
-    NSMutableString *result = [NSMutableString stringWithCapacity:CC_SHA224_DIGEST_LENGTH * 2];
-    for(int i = 0; i < CC_SHA224_DIGEST_LENGTH; i++) {
-        [result appendFormat:@"%02X", digest[i]];   //小写x表示输出的是小写SHA，大写X表示输出的是大写SHA
-    }
-    return [result copy];
+    NSData *data = [string dataUsingEncoding:NSUTF8StringEncoding];
+    NSString *result = [self SHA224Data:data];
+    return result;
 }
 
 + (NSString *)SHA224Data:(NSData *)data
@@ -84,22 +68,14 @@
 }
 
 /// SHA256
-+ (NSString *)SHA256String:(NSString *)stirng
++ (NSString *)SHA256String:(NSString *)string
 {
-    if (stirng.length == 0) {
+    if (string.length == 0) {
         return nil;
     }
-    const char *str = stirng.UTF8String;
-    // 创建摘要数组，存储加密结果
-    unsigned char digest[CC_SHA256_DIGEST_LENGTH];
-    // 进行SHA加密
-    CC_SHA256(str, (CC_LONG)strlen(str), digest);
-    // 输出为字符串
-    NSMutableString *result = [NSMutableString stringWithCapacity:CC_SHA256_DIGEST_LENGTH * 2];
-    for(int i = 0; i < CC_SHA256_DIGEST_LENGTH; i++) {
-        [result appendFormat:@"%02X", digest[i]];   //小写x表示输出的是小写SHA，大写X表示输出的是大写SHA
-    }
-    return [result copy];
+    NSData *data = [string dataUsingEncoding:NSUTF8StringEncoding];
+    NSString *result = [self SHA256Data:data];
+    return result;
 }
 
 + (NSString *)SHA256Data:(NSData *)data
@@ -120,22 +96,14 @@
 }
 
 /// SHA384
-+ (NSString *)SHA384String:(NSString *)stirng
++ (NSString *)SHA384String:(NSString *)string
 {
-    if (stirng.length == 0) {
+    if (string.length == 0) {
         return nil;
     }
-    const char *str = stirng.UTF8String;
-    // 创建摘要数组，存储加密结果
-    unsigned char digest[CC_SHA384_DIGEST_LENGTH];
-    // 进行SHA加密
-    CC_SHA384(str, (CC_LONG)strlen(str), digest);
-    // 输出为字符串
-    NSMutableString *result = [NSMutableString stringWithCapacity:CC_SHA384_DIGEST_LENGTH * 2];
-    for(int i = 0; i < CC_SHA384_DIGEST_LENGTH; i++) {
-        [result appendFormat:@"%02X", digest[i]];   //小写x表示输出的是小写SHA，大写X表示输出的是大写SHA
-    }
-    return [result copy];
+    NSData *data = [string dataUsingEncoding:NSUTF8StringEncoding];
+    NSString *result = [self SHA384Data:data];
+    return result;
 }
 
 + (NSString *)SHA384Data:(NSData *)data
@@ -156,22 +124,14 @@
 }
 
 /// SHA512
-+ (NSString *)SHA512String:(NSString *)stirng
++ (NSString *)SHA512String:(NSString *)string
 {
-    if (stirng.length == 0) {
+    if (string.length == 0) {
         return nil;
     }
-    const char *str = stirng.UTF8String;
-    // 创建摘要数组，存储加密结果
-    unsigned char digest[CC_SHA512_DIGEST_LENGTH];
-    // 进行SHA加密
-    CC_SHA512(str, (CC_LONG)strlen(str), digest);
-    // 输出为字符串
-    NSMutableString *result = [NSMutableString stringWithCapacity:CC_SHA512_DIGEST_LENGTH * 2];
-    for(int i = 0; i < CC_SHA512_DIGEST_LENGTH; i++) {
-        [result appendFormat:@"%02X", digest[i]];   //小写x表示输出的是小写SHA，大写X表示输出的是大写SHA
-    }
-    return [result copy];
+    NSData *data = [string dataUsingEncoding:NSUTF8StringEncoding];
+    NSString *result = [self SHA512Data:data];
+    return result;
 }
 
 + (NSString *)SHA512Data:(NSData *)data
@@ -193,23 +153,14 @@
 
 #pragma mark HMAC-SHA (HMAC 消息认证机制，可以和任何迭代散列算法搭配使用)
 /// HMAC-SHA1
-+ (NSString *)hmacSHA1String:(NSString *)stirng hmacKey:(NSString *)key
++ (NSString *)hmacSHA1String:(NSString *)string hmacKey:(NSString *)key
 {
-    if (stirng.length == 0 || key.length == 0) {
+    if (string.length == 0) {
         return nil;
     }
-    const char *str = stirng.UTF8String;
-    const char *keyData = key.UTF8String;
-    // 创建摘要数组，存储加密结果
-    unsigned char digest[CC_SHA1_DIGEST_LENGTH];
-    // 进行HMAC-SHA加密
-    CCHmac(kCCHmacAlgSHA1, keyData, (CC_LONG)strlen(keyData), str, (CC_LONG)strlen(str), digest);
-    // 输出为字符串
-    NSMutableString *result = [NSMutableString stringWithCapacity:CC_SHA1_DIGEST_LENGTH * 2];
-    for(int i = 0; i < CC_SHA1_DIGEST_LENGTH; i++) {
-        [result appendFormat:@"%02X", digest[i]];   //小写x表示输出的是小写SHA，大写X表示输出的是大写SHA
-    }
-    return [result copy];
+    NSData *data = [string dataUsingEncoding:NSUTF8StringEncoding];
+    NSString *result = [self hmacSHA1Data:data hmacKey:key];
+    return result;
 }
 
 + (NSString *)hmacSHA1Data:(NSData *)data hmacKey:(NSString *)key
@@ -232,23 +183,14 @@
 
 
 /// HMAC-SHA224
-+ (NSString *)hmacSHA224String:(NSString *)stirng hmacKey:(NSString *)key
++ (NSString *)hmacSHA224String:(NSString *)string hmacKey:(NSString *)key
 {
-    if (stirng.length == 0 || key.length == 0) {
+    if (string.length == 0) {
         return nil;
     }
-    const char *str = stirng.UTF8String;
-    const char *keyData = key.UTF8String;
-    // 创建摘要数组，存储加密结果
-    unsigned char digest[CC_SHA224_DIGEST_LENGTH];
-    // 进行HMAC-SHA加密
-    CCHmac(kCCHmacAlgSHA224, keyData, (CC_LONG)strlen(keyData), str, (CC_LONG)strlen(str), digest);
-    // 输出为字符串
-    NSMutableString *result = [NSMutableString stringWithCapacity:CC_SHA224_DIGEST_LENGTH * 2];
-    for(int i = 0; i < CC_SHA224_DIGEST_LENGTH; i++) {
-        [result appendFormat:@"%02X", digest[i]];   //小写x表示输出的是小写SHA，大写X表示输出的是大写SHA
-    }
-    return [result copy];
+    NSData *data = [string dataUsingEncoding:NSUTF8StringEncoding];
+    NSString *result = [self hmacSHA224Data:data hmacKey:key];
+    return result;
 }
 
 + (NSString *)hmacSHA224Data:(NSData *)data hmacKey:(NSString *)key
@@ -270,23 +212,14 @@
 }
 
 /// HMAC-SHA256
-+ (NSString *)hmacSHA256String:(NSString *)stirng hmacKey:(NSString *)key
++ (NSString *)hmacSHA256String:(NSString *)string hmacKey:(NSString *)key
 {
-    if (stirng.length == 0 || key.length == 0) {
+    if (string.length == 0) {
         return nil;
     }
-    const char *str = stirng.UTF8String;
-    const char *keyData = key.UTF8String;
-    // 创建摘要数组，存储加密结果
-    unsigned char digest[CC_SHA256_DIGEST_LENGTH];
-    // 进行HMAC-SHA加密
-    CCHmac(kCCHmacAlgSHA256, keyData, (CC_LONG)strlen(keyData), str, (CC_LONG)strlen(str), digest);
-    // 输出为字符串
-    NSMutableString *result = [NSMutableString stringWithCapacity:CC_SHA256_DIGEST_LENGTH * 2];
-    for(int i = 0; i < CC_SHA256_DIGEST_LENGTH; i++) {
-        [result appendFormat:@"%02X", digest[i]];   //小写x表示输出的是小写SHA，大写X表示输出的是大写SHA
-    }
-    return [result copy];
+    NSData *data = [string dataUsingEncoding:NSUTF8StringEncoding];
+    NSString *result = [self hmacSHA256Data:data hmacKey:key];
+    return result;
 }
 
 + (NSString *)hmacSHA256Data:(NSData *)data hmacKey:(NSString *)key
@@ -308,23 +241,14 @@
 }
 
 /// HMAC-SHA384
-+ (NSString *)hmacSHA384String:(NSString *)stirng hmacKey:(NSString *)key
++ (NSString *)hmacSHA384String:(NSString *)string hmacKey:(NSString *)key
 {
-    if (stirng.length == 0 || key.length == 0) {
+    if (string.length == 0) {
         return nil;
     }
-    const char *str = stirng.UTF8String;
-    const char *keyData = key.UTF8String;
-    // 创建摘要数组，存储加密结果
-    unsigned char digest[CC_SHA384_DIGEST_LENGTH];
-    // 进行HMAC-SHA加密
-    CCHmac(kCCHmacAlgSHA384, keyData, (CC_LONG)strlen(keyData), str, (CC_LONG)strlen(str), digest);
-    // 输出为字符串
-    NSMutableString *result = [NSMutableString stringWithCapacity:CC_SHA384_DIGEST_LENGTH * 2];
-    for(int i = 0; i < CC_SHA384_DIGEST_LENGTH; i++) {
-        [result appendFormat:@"%02X", digest[i]];   //小写x表示输出的是小写SHA，大写X表示输出的是大写SHA
-    }
-    return [result copy];
+    NSData *data = [string dataUsingEncoding:NSUTF8StringEncoding];
+    NSString *result = [self hmacSHA384Data:data hmacKey:key];
+    return result;
 }
 
 + (NSString *)hmacSHA384Data:(NSData *)data hmacKey:(NSString *)key
@@ -346,23 +270,14 @@
 }
 
 /// HMAC-SHA512
-+ (NSString *)hmacSHA512String:(NSString *)stirng hmacKey:(NSString *)key
++ (NSString *)hmacSHA512String:(NSString *)string hmacKey:(NSString *)key
 {
-    if (stirng.length == 0 || key.length == 0) {
+    if (string.length == 0) {
         return nil;
     }
-    const char *str = stirng.UTF8String;
-    const char *keyData = key.UTF8String;
-    // 创建摘要数组，存储加密结果
-    unsigned char digest[CC_SHA512_DIGEST_LENGTH];
-    // 进行HMAC-SHA加密
-    CCHmac(kCCHmacAlgSHA512, keyData, (CC_LONG)strlen(keyData), str, (CC_LONG)strlen(str), digest);
-    // 输出为字符串
-    NSMutableString *result = [NSMutableString stringWithCapacity:CC_SHA512_DIGEST_LENGTH * 2];
-    for(int i = 0; i < CC_SHA512_DIGEST_LENGTH; i++) {
-        [result appendFormat:@"%02X", digest[i]];   //小写x表示输出的是小写SHA，大写X表示输出的是大写SHA
-    }
-    return [result copy];
+    NSData *data = [string dataUsingEncoding:NSUTF8StringEncoding];
+    NSString *result = [self hmacSHA512Data:data hmacKey:key];
+    return result;
 }
 
 + (NSString *)hmacSHA512Data:(NSData *)data hmacKey:(NSString *)key
