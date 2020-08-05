@@ -37,7 +37,7 @@
     // 输出为字符串
     NSMutableString *result = [NSMutableString stringWithCapacity:CC_MD5_DIGEST_LENGTH * 2];
     for(int i = 0; i < CC_MD5_DIGEST_LENGTH; i++) {
-        [result appendFormat:@"%02X", digest[i]];   //小写x表示输出的是小写MD5，大写X表示输出的是大写MD5
+        [result appendFormat:@"%02x", digest[i]];   //小写x表示输出的是小写MD5，大写X表示输出的是大写MD5
     }
     return [result copy];
 }
@@ -57,7 +57,7 @@
     // 输出为字符串
     NSMutableString *result = [NSMutableString stringWithCapacity:CC_MD5_DIGEST_LENGTH * 2];
     for(int i = 0; i < CC_MD5_DIGEST_LENGTH; i++) {
-        [result appendFormat:@"%02X", digest[i]];   //小写x表示输出的是小写MD5，大写X表示输出的是大写MD5
+        [result appendFormat:@"%02x", digest[i]];   //小写x表示输出的是小写MD5，大写X表示输出的是大写MD5
     }
     return [result copy];
 }
@@ -90,7 +90,7 @@
     // 输出为字符串
     NSMutableString *result = [NSMutableString stringWithCapacity:CC_MD5_DIGEST_LENGTH * 2];
     for(int i = 0; i < CC_MD5_DIGEST_LENGTH; i++) {
-        [result appendFormat:@"%02X", digest[i]];   //小写x表示输出的是小写MD5，大写X表示输出的是大写MD5
+        [result appendFormat:@"%02x", digest[i]];   //小写x表示输出的是小写MD5，大写X表示输出的是大写MD5
     }
     return [result copy];
 }
@@ -153,7 +153,7 @@
     // Compute the string result
     char hash[2 *sizeof(digest) + 1];
     for (size_t i =0; i < sizeof(digest); ++i) {
-        snprintf(hash + (2 * i),3, "%02X", (int)(digest[i]));
+        snprintf(hash + (2 * i),3, "%02x", (int)(digest[i]));
     }
     result = CFStringCreateWithCString(kCFAllocatorDefault,
                                        (const char *)hash,
@@ -200,7 +200,7 @@ done:
     // 输出为字符串
     NSMutableString *result = [NSMutableString stringWithCapacity:CC_MD5_DIGEST_LENGTH * 2];
     for(int i = 0; i < CC_MD5_DIGEST_LENGTH; i++) {
-        [result appendFormat:@"%02X", digest[i]];   //小写x表示输出的是小写MD5，大写X表示输出的是大写MD5
+        [result appendFormat:@"%02x", digest[i]];   //小写x表示输出的是小写MD5，大写X表示输出的是大写MD5
     }
     return result;
 }

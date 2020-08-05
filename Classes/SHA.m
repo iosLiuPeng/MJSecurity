@@ -34,7 +34,7 @@
     // 输出为字符串
     NSMutableString *result = [NSMutableString stringWithCapacity:CC_SHA1_DIGEST_LENGTH * 2];
     for(int i = 0; i < CC_SHA1_DIGEST_LENGTH; i++) {
-        [result appendFormat:@"%02X", digest[i]];   //小写x表示输出的是小写SHA，大写X表示输出的是大写SHA
+        [result appendFormat:@"%02x", digest[i]];   //小写x表示输出的是小写SHA，大写X表示输出的是大写SHA
     }
     return [result copy];
 }
@@ -62,7 +62,7 @@
     // 输出为字符串
     NSMutableString *result = [NSMutableString stringWithCapacity:CC_SHA224_DIGEST_LENGTH * 2];
     for(int i = 0; i < CC_SHA224_DIGEST_LENGTH; i++) {
-        [result appendFormat:@"%02X", digest[i]];   //小写x表示输出的是小写SHA，大写X表示输出的是大写SHA
+        [result appendFormat:@"%02x", digest[i]];   //小写x表示输出的是小写SHA，大写X表示输出的是大写SHA
     }
     return [result copy];
 }
@@ -90,7 +90,7 @@
     // 输出为字符串
     NSMutableString *result = [NSMutableString stringWithCapacity:CC_SHA256_DIGEST_LENGTH * 2];
     for(int i = 0; i < CC_SHA256_DIGEST_LENGTH; i++) {
-        [result appendFormat:@"%02X", digest[i]];   //小写x表示输出的是小写SHA，大写X表示输出的是大写SHA
+        [result appendFormat:@"%02x", digest[i]];   //小写x表示输出的是小写SHA，大写X表示输出的是大写SHA
     }
     return [result copy];
 }
@@ -118,7 +118,7 @@
     // 输出为字符串
     NSMutableString *result = [NSMutableString stringWithCapacity:CC_SHA384_DIGEST_LENGTH * 2];
     for(int i = 0; i < CC_SHA384_DIGEST_LENGTH; i++) {
-        [result appendFormat:@"%02X", digest[i]];   //小写x表示输出的是小写SHA，大写X表示输出的是大写SHA
+        [result appendFormat:@"%02x", digest[i]];   //小写x表示输出的是小写SHA，大写X表示输出的是大写SHA
     }
     return [result copy];
 }
@@ -146,7 +146,7 @@
     // 输出为字符串
     NSMutableString *result = [NSMutableString stringWithCapacity:CC_SHA512_DIGEST_LENGTH * 2];
     for(int i = 0; i < CC_SHA512_DIGEST_LENGTH; i++) {
-        [result appendFormat:@"%02X", digest[i]];   //小写x表示输出的是小写SHA，大写X表示输出的是大写SHA
+        [result appendFormat:@"%02x", digest[i]];   //小写x表示输出的是小写SHA，大写X表示输出的是大写SHA
     }
     return [result copy];
 }
@@ -176,7 +176,7 @@
     // 输出为字符串
     NSMutableString *result = [NSMutableString stringWithCapacity:CC_SHA1_DIGEST_LENGTH * 2];
     for(int i = 0; i < CC_SHA1_DIGEST_LENGTH; i++) {
-        [result appendFormat:@"%02X", digest[i]];   //小写x表示输出的是小写SHA，大写X表示输出的是大写SHA
+        [result appendFormat:@"%02x", digest[i]];   //小写x表示输出的是小写SHA，大写X表示输出的是大写SHA
     }
     return [result copy];
 }
@@ -206,7 +206,7 @@
     // 输出为字符串
     NSMutableString *result = [NSMutableString stringWithCapacity:CC_SHA224_DIGEST_LENGTH * 2];
     for(int i = 0; i < CC_SHA224_DIGEST_LENGTH; i++) {
-        [result appendFormat:@"%02X", digest[i]];   //小写x表示输出的是小写SHA，大写X表示输出的是大写SHA
+        [result appendFormat:@"%02x", digest[i]];   //小写x表示输出的是小写SHA，大写X表示输出的是大写SHA
     }
     return [result copy];
 }
@@ -235,7 +235,7 @@
     // 输出为字符串
     NSMutableString *result = [NSMutableString stringWithCapacity:CC_SHA256_DIGEST_LENGTH * 2];
     for(int i = 0; i < CC_SHA256_DIGEST_LENGTH; i++) {
-        [result appendFormat:@"%02X", digest[i]];   //小写x表示输出的是小写SHA，大写X表示输出的是大写SHA
+        [result appendFormat:@"%02x", digest[i]];   //小写x表示输出的是小写SHA，大写X表示输出的是大写SHA
     }
     return [result copy];
 }
@@ -264,7 +264,7 @@
     // 输出为字符串
     NSMutableString *result = [NSMutableString stringWithCapacity:CC_SHA384_DIGEST_LENGTH * 2];
     for(int i = 0; i < CC_SHA384_DIGEST_LENGTH; i++) {
-        [result appendFormat:@"%02X", digest[i]];   //小写x表示输出的是小写SHA，大写X表示输出的是大写SHA
+        [result appendFormat:@"%02x", digest[i]];   //小写x表示输出的是小写SHA，大写X表示输出的是大写SHA
     }
     return [result copy];
 }
@@ -293,7 +293,7 @@
     // 输出为字符串
     NSMutableString *result = [NSMutableString stringWithCapacity:CC_SHA512_DIGEST_LENGTH * 2];
     for(int i = 0; i < CC_SHA512_DIGEST_LENGTH; i++) {
-        [result appendFormat:@"%02X", digest[i]];   //小写x表示输出的是小写SHA，大写X表示输出的是大写SHA
+        [result appendFormat:@"%02x", digest[i]];   //小写x表示输出的是小写SHA，大写X表示输出的是大写SHA
     }
     return [result copy];
 }

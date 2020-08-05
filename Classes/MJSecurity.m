@@ -99,17 +99,17 @@
 }
 
 #pragma mark - AES
-/// 默认为 AES128 CBC PKCS7Padding(等同于其他平台PKCS5Padding)，多平台通用
-/// AES128 CBC加密
+/// 默认为 AES256 CBC PKCS7Padding(等同于其他平台PKCS5Padding)，多平台通用
+/// AES256 CBC加密
 + (NSData *)AESEncryptData:(NSData *)data key:(NSString *)key iv:(NSString *)iv
 {
-    return [AES encryptData:data key:[AES md5AES128key:key] iv:[AES md5IV:iv]];
+    return [AES encryptData:data key:[AES md5AES256key:key] iv:[AES md5IV:iv]];
 }
 
-/// AES128 CBC解密
+/// AES256 CBC解密
 + (NSData *)AESDecryptData:(NSData *)data key:(NSString *)key iv:(NSString *)iv
 {
-    return [AES decryptData:data key:[AES md5AES128key:key] iv:[AES md5IV:iv]];
+    return [AES decryptData:data key:[AES md5AES256key:key] iv:[AES md5IV:iv]];
 }
 
 #pragma mark - RSA

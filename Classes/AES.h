@@ -23,6 +23,7 @@ NS_ASSUME_NONNULL_BEGIN
 /// AES192 key:原值MD5,取(5,24)  iv:原值MD5,取(5,16)
 /// AES256 key:原值MD5           iv:原值MD5,取(5,16)
 /// MD5是大写
+/// 由于Range是从0开始计算的，所以实际是从第6位开始，取16位长度
 
 /// 将任意长度key，转为加密方式指定长度的key
 /// AES128 key:原值MD5,取(5,16)，MD5是大写
