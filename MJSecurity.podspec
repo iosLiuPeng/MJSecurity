@@ -1,6 +1,6 @@
 Pod::Spec.new do |s|
   s.name             = 'MJSecurity'
-  s.version          = '0.1.2'
+  s.version          = '0.1.3'
   s.summary          = 'MJSecurity 包含Base64、Hash、MD5、SHA、AES、DES、RSA'
   s.homepage         = 'https://github.com/iosLiuPeng/MJSecurity'
   s.license          = { :type => 'MIT', :file => 'LICENSE' }
