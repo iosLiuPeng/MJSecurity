@@ -5,7 +5,7 @@ MJSecurity类提供多平台通用方法
 编码算法：  
 Base64  
   
-Hash算法：  
+摘要算法：  
 javaHash  
 MD5  
 SHA  

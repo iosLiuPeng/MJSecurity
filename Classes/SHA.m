@@ -1,6 +1,6 @@
 //
 //  SHA.m
-//  IAPDemo
+//  
 //
 //  Created by 刘鹏i on 2020/7/23.
 //  Copyright © 2020 liu. All rights reserved.
@@ -27,9 +27,9 @@
     if (data == nil) {
         return nil;
     }
-    // 创建摘要数组，存储加密结果
+    // 创建摘要数组，存储摘要结果
     unsigned char digest[CC_SHA1_DIGEST_LENGTH];
-    // 进行SHA加密
+    // 进行SHA摘要
     CC_SHA1(data.bytes, (CC_LONG)data.length, digest);
     // 输出为字符串
     NSMutableString *result = [NSMutableString stringWithCapacity:CC_SHA1_DIGEST_LENGTH * 2];
@@ -55,9 +55,9 @@
     if (data == nil) {
         return nil;
     }
-    // 创建摘要数组，存储加密结果
+    // 创建摘要数组，存储摘要结果
     unsigned char digest[CC_SHA224_DIGEST_LENGTH];
-    // 进行SHA加密
+    // 进行SHA摘要
     CC_SHA224(data.bytes, (CC_LONG)data.length, digest);
     // 输出为字符串
     NSMutableString *result = [NSMutableString stringWithCapacity:CC_SHA224_DIGEST_LENGTH * 2];
@@ -83,9 +83,9 @@
     if (data == nil) {
         return nil;
     }
-    // 创建摘要数组，存储加密结果
+    // 创建摘要数组，存储摘要结果
     unsigned char digest[CC_SHA256_DIGEST_LENGTH];
-    // 进行SHA加密
+    // 进行SHA摘要
     CC_SHA256(data.bytes, (CC_LONG)data.length, digest);
     // 输出为字符串
     NSMutableString *result = [NSMutableString stringWithCapacity:CC_SHA256_DIGEST_LENGTH * 2];
@@ -111,9 +111,9 @@
     if (data == nil) {
         return nil;
     }
-    // 创建摘要数组，存储加密结果
+    // 创建摘要数组，存储摘要结果
     unsigned char digest[CC_SHA384_DIGEST_LENGTH];
-    // 进行SHA加密
+    // 进行SHA摘要
     CC_SHA384(data.bytes, (CC_LONG)data.length, digest);
     // 输出为字符串
     NSMutableString *result = [NSMutableString stringWithCapacity:CC_SHA384_DIGEST_LENGTH * 2];
@@ -139,9 +139,9 @@
     if (data == nil) {
         return nil;
     }
-    // 创建摘要数组，存储加密结果
+    // 创建摘要数组，存储摘要结果
     unsigned char digest[CC_SHA512_DIGEST_LENGTH];
-    // 进行SHA加密
+    // 进行SHA摘要
     CC_SHA512(data.bytes, (CC_LONG)data.length, digest);
     // 输出为字符串
     NSMutableString *result = [NSMutableString stringWithCapacity:CC_SHA512_DIGEST_LENGTH * 2];
@@ -169,9 +169,9 @@
         return nil;
     }
     const char *keyData = key.UTF8String;
-    // 创建摘要数组，存储加密结果
+    // 创建摘要数组，存储摘要结果
     unsigned char digest[CC_SHA1_DIGEST_LENGTH];
-    // 进行HMAC-SHA加密
+    // 进行HMAC-SHA摘要
     CCHmac(kCCHmacAlgSHA1, keyData, (CC_LONG)strlen(keyData), data.bytes, data.length, digest);
     // 输出为字符串
     NSMutableString *result = [NSMutableString stringWithCapacity:CC_SHA1_DIGEST_LENGTH * 2];
@@ -199,9 +199,9 @@
         return nil;
     }
     const char *keyData = key.UTF8String;
-    // 创建摘要数组，存储加密结果
+    // 创建摘要数组，存储摘要结果
     unsigned char digest[CC_SHA224_DIGEST_LENGTH];
-    // 进行HMAC-SHA加密
+    // 进行HMAC-SHA摘要
     CCHmac(kCCHmacAlgSHA224, keyData, (CC_LONG)strlen(keyData), data.bytes, data.length, digest);
     // 输出为字符串
     NSMutableString *result = [NSMutableString stringWithCapacity:CC_SHA224_DIGEST_LENGTH * 2];
@@ -228,9 +228,9 @@
         return nil;
     }
     const char *keyData = key.UTF8String;
-    // 创建摘要数组，存储加密结果
+    // 创建摘要数组，存储摘要结果
     unsigned char digest[CC_SHA256_DIGEST_LENGTH];
-    // 进行HMAC-SHA加密
+    // 进行HMAC-SHA摘要
     CCHmac(kCCHmacAlgSHA256, keyData, (CC_LONG)strlen(keyData), data.bytes, data.length, digest);
     // 输出为字符串
     NSMutableString *result = [NSMutableString stringWithCapacity:CC_SHA256_DIGEST_LENGTH * 2];
@@ -257,9 +257,9 @@
         return nil;
     }
     const char *keyData = key.UTF8String;
-    // 创建摘要数组，存储加密结果
+    // 创建摘要数组，存储摘要结果
     unsigned char digest[CC_SHA384_DIGEST_LENGTH];
-    // 进行HMAC-SHA加密
+    // 进行HMAC-SHA摘要
     CCHmac(kCCHmacAlgSHA384, keyData, (CC_LONG)strlen(keyData), data.bytes, data.length, digest);
     // 输出为字符串
     NSMutableString *result = [NSMutableString stringWithCapacity:CC_SHA384_DIGEST_LENGTH * 2];
@@ -286,9 +286,9 @@
         return nil;
     }
     const char *keyData = key.UTF8String;
-    // 创建摘要数组，存储加密结果
+    // 创建摘要数组，存储摘要结果
     unsigned char digest[CC_SHA512_DIGEST_LENGTH];
-    // 进行HMAC-SHA加密
+    // 进行HMAC-SHA摘要
     CCHmac(kCCHmacAlgSHA512, keyData, (CC_LONG)strlen(keyData), data.bytes, data.length, digest);
     // 输出为字符串
     NSMutableString *result = [NSMutableString stringWithCapacity:CC_SHA512_DIGEST_LENGTH * 2];

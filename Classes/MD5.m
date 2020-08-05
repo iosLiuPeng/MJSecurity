@@ -1,6 +1,6 @@
 //
 //  MD5.m
-//  IAPDemo
+//  
 //
 //  Created by 刘鹏i on 2020/7/23.
 //  Copyright © 2020 liu. All rights reserved.
@@ -11,7 +11,7 @@
 
 @implementation MD5
 #pragma mark - MD5
-/// MD5加密字符串
+/// MD5摘要字符串
 + (NSString *)MD5String:(NSString *)string
 {
     if (string.length == 0) {
@@ -22,17 +22,17 @@
     return result;
 }
 
-/// MD5加密Data（MD5加密方法一）
+/// MD5摘要Data（MD5摘要方法一）
 + (NSString *)MD5Data:(NSData *)data
 {
     if (data == nil) {
         return nil;
     }
-    // 创建摘要数组，存储加密结果
+    // 创建摘要数组，存储摘要结果
     unsigned char digest[CC_MD5_DIGEST_LENGTH];
     // 也可以定义一个字节数组来接收计算得到的MD5值
     // Byte digest[CC_MD5_DIGEST_LENGTH];
-    // 进行MD5加密
+    // 进行MD5摘要
     CC_MD5(data.bytes, (CC_LONG)data.length, digest);
     // 输出为字符串
     NSMutableString *result = [NSMutableString stringWithCapacity:CC_MD5_DIGEST_LENGTH * 2];
@@ -42,10 +42,10 @@
     return [result copy];
 }
 
-/// MD5加密方法二 (暂时不用，可以用来验证下面文件MD5方法的正确性)
+/// MD5摘要方法二 (暂时不用，可以用来验证下面文件MD5方法的正确性)
 + (NSString *)MD5WithData:(NSData *)data
 {
-    // 效率上与方法一几乎无差别，10万次加密，相差0.02s
+    // 效率上与方法一几乎无差别，10万次摘要，相差0.02s
     if (data == nil) {
         return nil;
     }
@@ -63,7 +63,7 @@
 }
 
 #pragma mark - HMAC-MD5 更安全的MD5方式，双方共有一个密钥
-/// HMAC-MD5加密字符串
+/// HMAC-MD5摘要字符串
 + (NSString *)hmacMD5String:(NSString *)string hmacKey:(NSString *)key
 {
     if (string.length == 0) {
@@ -74,18 +74,18 @@
     return result;
 }
 
-/// HMAC-MD5加密Data
+/// HMAC-MD5摘要Data
 + (NSString *)hmacMD5Data:(NSData *)data hmacKey:(NSString *)key
 {
     if (data == nil || key.length == 0) {
         return nil;
     }
     const char *keyData = key.UTF8String;
-    // 创建摘要数组，存储加密结果
+    // 创建摘要数组，存储摘要结果
     unsigned char digest[CC_MD5_DIGEST_LENGTH];
     // 也可以定义一个字节数组来接收计算得到的MD5值
     // Byte digest[CC_MD5_DIGEST_LENGTH];
-    // 进行HMAC-MD5加密
+    // 进行HMAC-MD5摘要
     CCHmac(kCCHmacAlgMD5, keyData, strlen(keyData), data.bytes, (CC_LONG)data.length, digest);
     // 输出为字符串
     NSMutableString *result = [NSMutableString stringWithCapacity:CC_MD5_DIGEST_LENGTH * 2];
